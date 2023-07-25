@@ -1,17 +1,17 @@
 const mysqlConnection = require('../config/dbConfig');
 const jwt = require('jsonwebtoken');
 
-// module.exports.getData = (req, res) => {
-//     let getAlldata = ' SELECT * FROM todolist';
-//     mysqlConnection.query(getAlldata, (err, rows, fields) => {
-//         if (err) {
-//             console.log('error');
-//         }
-//         else {
-//             res.send(rows);
-//         }
-//     })
-// }
+module.exports.getData = (req, res) => {
+    let getAlldata = ' SELECT * FROM todolist';
+    mysqlConnection.query(getAlldata, (err, rows, fields) => {
+        if (err) {
+            console.log('error');
+        }
+        else {
+            res.send(rows);
+        }
+    })
+}
 module.exports.addData = (req, res) => {
     let { titleAdd, DescriptionAdd, token } = req.body
     const { userid } = jwt.verify(token, process.env.DB_TOKEN)
