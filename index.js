@@ -4,7 +4,13 @@ const cors = require('cors')
 const todoRoutes = require('./src/routes/todoRoutes')
 const mysqlConnection = require('./src/config/dbConfig');
 
-app.use(cors())
+app.use(cors(
+    {
+        origin: ["https://todo-frontend-xi-one.vercel.app/"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true
+    }
+))
 app.use(express.json());
 
 mysqlConnection.connect((err) => {
