@@ -6,7 +6,6 @@ const mysqlConnection = require('./src/config/dbConfig');
 
 app.use(cors(
     {
-        // origin: ["https://todo-frontend-xi-one.vercel.app/"],
         origin: ["http://localhost:3000"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
@@ -24,7 +23,7 @@ mysqlConnection.connect((err) => {
 })
 
 app.use('/', todoRoutes);
-const port = 9001;
+const port = 9000;
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
 })

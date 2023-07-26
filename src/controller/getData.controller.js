@@ -5,7 +5,7 @@ module.exports.getData = (req, res) => {
     let getAlldata = ' SELECT * FROM todolist';
     mysqlConnection.query(getAlldata, (err, rows, fields) => {
         if (err) {
-            console.log('error');
+            console.log('error', err);
         }
         else {
             res.send(rows);
@@ -27,13 +27,11 @@ module.exports.addData = (req, res) => {
     })
 }
 module.exports.deleteRecord = (req, res) => {
-    // console.log(req.params)
     let id = req.params.id
-    // console.log('id for delete record', id);
     let quary = `DELETE FROM todolist WHERE id = ?`
     mysqlConnection.query(quary, [id], (err, rows) => {
         if (err) {
-            console.log('error from delete');
+            console.log('error from delete', err);
         } else {
             res.send('delete record successfully');
             console.log('delete record successfully');
@@ -42,11 +40,10 @@ module.exports.deleteRecord = (req, res) => {
 }
 module.exports.updateRecord = (req, res) => {
     let { isUpdate, titleUpdate, DescriptionUpdate } = req.body
-    // console.log('data for update', req.body)
     let quary = 'UPDATE todolist SET  title=?,description=? WHERE id=?'
     mysqlConnection.query(quary, [titleUpdate, DescriptionUpdate, isUpdate], (err, rows) => {
         if (err) {
-            console.log('error from update');
+            console.log('error from update', err);
         } else {
             res.send('update record successfully');
             console.log('update record successfully');
@@ -58,7 +55,7 @@ module.exports.register = (req, res) => {
     let quary = 'INSERT INTO user SET firstname=?, username=?, password=?'
     mysqlConnection.query(quary, [firstname, username, password], (err, rows) => {
         if (err) {
-            console.log('error in user registration')
+            console.log('error in user registration', err)
         }
         else {
             console.log('user register successfully')
@@ -67,17 +64,15 @@ module.exports.register = (req, res) => {
 }
 module.exports.login = (req, res) => {
     let { username, password } = req.body;
-    console.log(username, password);
     let quary = 'SELECT userid , username , password FROM user WHERE username=? AND password=? '
     mysqlConnection.query(quary, [username, password], (err, rows) => {
         if (err) {
             res.send('username and password is invalid')
-            console.log('username and password is invalid')
+            console.log('username and password is invalid', err)
         }
         else {
             if (rows.length === 1) {
                 const token = jwt.sign({ userid: rows[0].userid }, process.env.DB_TOKEN);
-                // console.log(decode = jwt.verify(token, process.env.DB_TOKEN));
                 res.send([{ credential: 'success' }, { token: token }])
             } else {
                 res.send([{ credential: 'failed' }])
@@ -105,7 +100,7 @@ module.exports.verifyUser = (req, res) => {
     mysqlConnection.query(quary, [userid], (error, rows) => {
         if (error) {
             res.send({ success: false, error: error })
-            console.log('user not found')
+            console.log('user not found',error)
         }
         else {
             res.send({ success: true })
