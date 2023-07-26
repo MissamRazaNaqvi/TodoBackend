@@ -67,7 +67,7 @@ module.exports.register = (req, res) => {
 }
 module.exports.login = (req, res) => {
     let { username, password } = req.body;
-    // console.log(username, password);
+    console.log(username, password);
     let quary = 'SELECT userid , username , password FROM user WHERE username=? AND password=? '
     mysqlConnection.query(quary, [username, password], (err, rows) => {
         if (err) {
@@ -100,16 +100,16 @@ module.exports.getUserData = (req, res) => {
 }
 module.exports.verifyUser = (req, res) => {
     let { token } = req.body
-    try {
-        const decode = jwt.verify(token, process.env.DB_TOKEN)
-        res.send({
-            success: true
-        })
-    }
-    catch (error) {
-        res.send({
-            success: false,
-            error: error
-        })
-    }
+    const { userid } = jwt.verify(token, process.env.DB_TOKEN)
+    let quary = 'SELECT  username  FROM user WHERE userid=?  '
+    mysqlConnection.query(quary, [userid], (error, rows) => {
+        if (error) {
+            res.send({ success: false, error: error })
+            console.log('user not found')
+        }
+        else {
+            res.send({ success: true })
+            console.log('user found')
+        }
+    })
 }

@@ -8,6 +8,6 @@ routes.delete('/:id', deleteRecord)
 routes.post('/update', updateRecord)
 routes.post('/register', register)
 routes.post('/login', login)
-routes.post('verify', verifyUser)
+routes.post('/verify', verifyUser)
 routes.post('/getUserData', getUserData)
 module.exports = routes
