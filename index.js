@@ -6,7 +6,7 @@ const mysqlConnection = require('./src/config/dbConfig');
 
 app.use(cors(
     {
-        origin: ["https://todo-frontend-seven-jet.vercel.app/"],
+        origin: ["https://todo-frontend-seven-jet.vercel.app"],
         // origin: ["http://localhost:3000"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
